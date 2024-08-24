@@ -4,14 +4,20 @@ def main():
     input_file = open('input/test.csv', 'r', encoding='utf-8')
     output_file = open('output/test.csv', 'w', encoding='utf-8')
 
-    items = []
+    first_line = input_file.readline()
+    head = first_line.split(';')
+    first_line = head[0] + ";" + head[1] + ";" + head[2].strip()
+
+    items = list()
+    items.append(first_line)
 
     for line in input_file:
-        temp = line.split(';')
-        cpf = temp[2].strip()
-        cpf = cpf[0:3] + ".***.***-" + cpf[-2:]
-        content = temp[0] + ";" + temp[1] + ";" +  cpf
-        items.append(content)
+        if line != first_line:
+            temp = line.split(';')
+            cpf = temp[2].strip()
+            cpf = cpf[0:3] + ".***.***-" + cpf[-2:]
+            item = temp[0] + ";" + temp[1] + ";" +  cpf
+            items.append(item)
 
     input_file.close()
 
