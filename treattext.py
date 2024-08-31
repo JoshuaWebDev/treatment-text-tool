@@ -1,12 +1,13 @@
 import os
 
 def main():
-    input_file = open('input/test.csv', 'r', encoding='utf-8')
-    output_file = open('output/test.csv', 'w', encoding='utf-8')
+    file_name = input('Informe o nome de arquivo de entrada: ')
+    target    = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
+    input_folder = os.path.abspath('input')
+    output_folder = os.path.abspath('output')
+    input_file = open(input_folder + '/' + file_name, 'r', encoding='utf-8')
+    output_file = open(output_folder + '/' + file_name, 'w', encoding='utf-8')
     
-    # define o campo que será tratado
-    target = 'CPF'
-
     # a partir da primeira linha do arquivo, cria uma lista com o nome dos campos (atributos)
     first_line = input_file.readline()
     head = first_line.split(';')
@@ -25,8 +26,12 @@ def main():
                 item.append(t.strip())
 
             dictio = {} # cria um dicionário vazio
+
+            # adiciona o contéudo de item ao dicionário dictio
             for i in range(len(item)):
                 dictio[head[i]] = item[i]
+
+            # adiciona o contéudo do dicionário dictio à lista items
             items.append(dictio)
             
             #cpf = temp[2].strip()
@@ -34,24 +39,35 @@ def main():
 
     input_file.close()
 
-    #    print(repr(items))
-
+    # organiza o conteúdo que será salvo no arquivo de saída
+    # na pasta output dentro da variável content
     content = ""
 
-    counter = 0
+    # formata o cabeçalho (1ª linha do arquivo)
+    for h in head:
+        if h == head[-1]:
+            content += "{}\n".format(h)
+        else:
+            content += "{};".format(h)
 
-    while counter < len(head):
-        content += head[counter]
-        if (counter != len(head) - 1):
-            content += ";"
-        counter += 1
-
-    content += "\n"
-
+    # formata o contéudo após o cabeçalho (2ª linha em diante)
     for item in items:
-        content += "{:2};{};{}\n".format(item['ID'], item['NOME'], item['CPF'])
+        for h in head:
+            # se o cabeçalho for igual ao target informado
+            # é realizado o tratamento deste campo
+            if h == target:
+                content += "{}.***.***-{}".format(item[h][0:3], item[h][-2:])
+            else:
+                content += item[h]
 
-    # pega o conteúdo da lista items e salva no arquivo, após serem tratados os dados
+            # se for o último item, adiciona uma quebra de linha
+            # senão, adiciona o separador (',', ';', etc)
+            if h == head[-1]:
+                content += "\n"
+            else:
+                content += ";"
+
+    # pega o conteúdo da variável content e salva no arquivo, após serem tratados os dados
     output_file.write(content)
 
     output_file.close()
