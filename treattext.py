@@ -34,18 +34,29 @@ def main():
 
     input_file.close()
 
-    print(repr(items))
+    #    print(repr(items))
 
-    exit()
+    content = ""
+
+    counter = 0
+
+    while counter < len(head):
+        content += head[counter]
+        if (counter != len(head) - 1):
+            content += ";"
+        counter += 1
+
+    content += "\n"
+
+    for item in items:
+        content += "{:2};{};{}\n".format(item['ID'], item['NOME'], item['CPF'])
 
     # pega o conteúdo da lista items e salva no arquivo, após serem tratados os dados
-    for item in items:
-        temp = ";".join(item)
-        output_file.write(temp + "\n")
+    output_file.write(content)
 
     output_file.close()
 
-    print("Arquivo criado com sucesso em", output_file.name)
+    print("Arquivo criado com sucesso em {}".format(output_file.name))
 
 if __name__ == "__main__":
     main() 
