@@ -16,7 +16,8 @@ def main():
     # a partir da primeira linha do arquivo, cria uma lista com o nome dos campos (atributos)
     first_line = input_file.readline()
     head = first_line.split(';')
-    head[-1] = head[-1][0:-1] # elimina a quebra de linha do último item da lista (\n)
+    # elimina a quebra de linha do último item da lista
+    head[-1] = head[-1][0:-1]
 
     items = list()
 
