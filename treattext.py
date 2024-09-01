@@ -1,5 +1,10 @@
 import os
 
+def hide_cpf(cpf):
+    cpf_hidded = "{}.***.***-{}".format(cpf[0:3], cpf[-2:])
+    return cpf_hidded
+
+
 def main():
     file_name = input('Informe o nome de arquivo de entrada: ')
     target    = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
@@ -56,7 +61,7 @@ def main():
             # se o cabeçalho for igual ao target informado
             # é realizado o tratamento deste campo
             if h == target:
-                content += "{}.***.***-{}".format(item[h][0:3], item[h][-2:])
+                content += hide_cpf(item[h])
             else:
                 content += item[h]
 
