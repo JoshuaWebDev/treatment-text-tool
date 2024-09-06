@@ -1,8 +1,13 @@
 import os
 
-def hide_cpf(cpf):
-    cpf_hidded = "{}.***.***-{}".format(cpf[0:3], cpf[-2:])
-    return cpf_hidded
+def hide_cpf(cpf_or_cnpj):
+    result = cpf_or_cnpj.replace('.','').replace('-','').replace('/','')
+
+    if len(result) == 11:
+        cpf_hidded = "{}.***.***-{}".format(result[0:3], result[-2:])
+        return cpf_hidded
+    else:
+        return cpf_or_cnpj
 
 
 def main():
@@ -40,9 +45,6 @@ def main():
             # adiciona o contéudo do dicionário dictio à lista items
             items.append(dictio)
             
-            #cpf = temp[2].strip()
-            #cpf = cpf[0:3] + ".***.***-" + cpf[-2:]
-
     input_file.close()
 
     # organiza o conteúdo que será salvo no arquivo de saída
