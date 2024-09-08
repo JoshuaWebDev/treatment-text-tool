@@ -1,13 +1,43 @@
 import os
 
+input_folder = os.path.abspath('input')
+output_folder = os.path.abspath('output')
+
+def format_csv(file_name):
+    separator = input("Informe o tipo de separador (vírgula, ponto e vírgula, etc): ")
+    input_file_path = os.path.join(input_folder, file_name)
+    output_file_path = os.path.join(output_folder, file_name)
+
+    input_file = handle_input_file(input_file_path)
+
+    if input_file:
+        # a partir da primeira linha do arquivo, cria uma lista com o nome dos campos (atributos)
+        first_line = input_file.readline()
+        head = first_line.split(separator)
+
+        for line in input_file:
+            if line != first_line:
+                temp = line.split(';')
+                if len(temp) < len(head):
+                    temp[-1] = temp[-1][0:-1]
+
+                print(temp)
+                print("FALTA TERMINAR DE IMPLEMENTAR...")
+                exit()
+
+
 def hide_cpf(cpf_or_cnpj):
     result = cpf_or_cnpj.replace('.','').replace('-','').replace('/','')
 
     if len(result) == 11:
         cpf_hidded = "{}.***.***-{}".format(result[0:3], result[-2:])
         return cpf_hidded
-    else:
+    elif len(result) == 14:
         return cpf_or_cnpj
+    else:
+        print(f"\033[1;31mA quantidade de caracteres inserida difere da quantidade de caracteres de um CPF ou CNPJ")
+        print(f"Valor informado: {cpf_or_cnpj}.\033[0m")
+        exit()
 
 
 def handle_input_file(path_file):
@@ -30,23 +60,21 @@ def handle_input_file(path_file):
 
 
 def handle_output_file(path_file, content):
+    if not os.path.exists('output'):
+        os.makedirs('output')
     try:
         with open(path_file, 'w', encoding='utf-8') as output_file:
             output_file.write(content)
-            print(f"\033[1;32mO arquivo {path_file} foi criado com sucesso\!\033[0m")
+            print(f"\033[1;32mO arquivo {path_file} foi criado com sucesso!\033[0m")
     except PermissionError:
         print(f"\033[1;31mO arquivo {path_file} não possui permissão de escrita.\033[0m")
         return
     except Exception as e:
         print(f"\033[1;31mOcorreu um erro inesperado ao tentar ler o arquivo {path_file}: {e}\033[0m")
         return
-    
 
-def main():
-    file_name = input('Informe o nome de arquivo de entrada: ')
-    target    = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
-    input_folder = os.path.abspath('input')
-    output_folder = os.path.abspath('output')
+
+def treat_sensitive_data(file_name, target):
     input_file_path = os.path.join(input_folder, file_name)
     output_file_path = os.path.join(output_folder, file_name)
 
@@ -111,6 +139,19 @@ def main():
 
         # pega o conteúdo da variável content e salva no arquivo, após serem tratados os dados
         handle_output_file(output_file_path, content)
+
+
+def main():
+    file_name = input('Informe o nome de arquivo de entrada: ')
+    option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT CSV FILE\n2 - HIDE SENSITIVE DATA\n0 - EXIT\n")
+
+    if (option == '1'):
+        format_csv(file_name)
+    elif (option == '2'):
+        target = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
+        treat_sensitive_data(file_name, target)
+    else:
+        exit()
 
 
 if __name__ == "__main__":
