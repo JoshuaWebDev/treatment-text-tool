@@ -1,7 +1,7 @@
 import os
 
 def hide_cpf(cpf_or_cnpj):
-    result = cpf_or_cnpj.replace('.','').replace('-','').replace('/','')
+    result = cpf_or_cnpj.replace('.','').replace('-','').replace('/','').replace('"','')
 
     if len(result) == 11:
         cpf_hidded = "{}.***.***-{}".format(result[0:3], result[-2:])
@@ -30,7 +30,7 @@ def handle_input_file(path_file):
 
 
 def handle_output_file(path_file, content):
-    if not os.path.exists(path_file):
+    if not os.path.exists('output'):
         os.makedirs('output')
     try:
         with open(path_file, 'w', encoding='utf-8') as output_file:
