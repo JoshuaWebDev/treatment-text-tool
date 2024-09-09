@@ -30,7 +30,7 @@ def handle_input_file(path_file):
 
 
 def handle_output_file(path_file, content):
-    if not os.path.exists(path_file):
+    if not os.path.exists('output'):
         os.makedirs('output')
     try:
         with open(path_file, 'w', encoding='utf-8') as output_file:
