@@ -1,7 +1,127 @@
 import os
+from os.path import split
 
 input_folder = os.path.abspath('input')
 output_folder = os.path.abspath('output')
+
+def remove_space_of_namefile(file_name):
+    return file_name.replace(" ", "_")
+
+
+def remove_dash_of_namefile(file_name):
+    return file_name.replace("-", "")
+
+
+def remove_extra_underlines_of_namefile(file_name):
+    return file_name.replace("__", "_")
+
+
+def remove_accents_of_namefile(file_name):
+    new_filename = file_name.replace("Á", "A")
+    new_filename = new_filename.replace("À", "A")
+    new_filename = new_filename.replace("Ã", "A")
+    new_filename = new_filename.replace("Â", "A")
+    new_filename = new_filename.replace("Ä", "A")
+    new_filename = new_filename.replace("É", "E")
+    new_filename = new_filename.replace("È", "E")
+    new_filename = new_filename.replace("Ê", "E")
+    new_filename = new_filename.replace("Ë", "E")
+    new_filename = new_filename.replace("Í", "I")
+    new_filename = new_filename.replace("Ì", "I")
+    new_filename = new_filename.replace("Î", "I")
+    new_filename = new_filename.replace("Ï", "I")
+    new_filename = new_filename.replace("Ó", "O")
+    new_filename = new_filename.replace("Ò", "O")
+    new_filename = new_filename.replace("Õ", "O")
+    new_filename = new_filename.replace("Ô", "O")
+    new_filename = new_filename.replace("Ö", "O")
+    new_filename = new_filename.replace("Ú", "U")
+    new_filename = new_filename.replace("Ù", "U")
+    new_filename = new_filename.replace("Û", "U")
+    new_filename = new_filename.replace("Ü", "U")
+    return new_filename
+
+
+def format_filename(file_name):
+    newfile_name = remove_space_of_namefile(file_name)
+    newfile_name = remove_dash_of_namefile(newfile_name)
+    newfile_name = remove_extra_underlines_of_namefile(newfile_name)
+    newfile_name = remove_accents_of_namefile(newfile_name)
+
+    input_file_path = os.path.join(input_folder, file_name)
+    output_file_path = os.path.join(input_folder, newfile_name)
+
+    try:
+        os.rename(input_file_path, output_file_path)
+        print(file_name + " has been renamed to " + newfile_name + " successfully.")
+
+    except IsADirectoryError:
+        print(file_name + " is a file but " + newfile_name + " is a directory.")
+
+    except NotADirectoryError:
+        print(file_name + " is a directory but " + newfile_name + " is a file.")
+
+    except PermissionError:
+        print("Operation not permitted.")
+
+    except FileNotFoundError:
+        print("File not found.")
+
+    except OSError as error:
+        print(error)
+
+
+def remove_extra_words_in_filename(file_name, extra_word):
+    newfile_name = file_name.replace(extra_word, "")
+
+    input_file_path = os.path.join(input_folder, file_name)
+    output_file_path = os.path.join(input_folder, newfile_name)
+
+    try:
+        os.rename(input_file_path, output_file_path)
+        print(file_name + " has been renamed to " + newfile_name + " successfully.")
+
+    except IsADirectoryError:
+        print(file_name + " is a file but " + newfile_name + " is a directory.")
+
+    except NotADirectoryError:
+        print(file_name + " is a directory but " + newfile_name + " is a file.")
+
+    except PermissionError:
+        print("Operation not permitted.")
+
+    except FileNotFoundError:
+        print("File not found.")
+
+    except OSError as error:
+        print(error)
+
+
+def replace_part_of_namefile(file_name, part_to_remove, part_to_add):
+    newfile_name = file_name.replace(part_to_remove, part_to_add)
+
+    input_file_path = os.path.join(input_folder, file_name)
+    output_file_path = os.path.join(input_folder, newfile_name)
+
+    try:
+        os.rename(input_file_path, output_file_path)
+        print(file_name + " has been renamed to " + newfile_name + " successfully.")
+
+    except IsADirectoryError:
+        print(file_name + " is a file but " + newfile_name + " is a directory.")
+
+    except NotADirectoryError:
+        print(file_name + " is a directory but " + newfile_name + " is a file.")
+
+    except PermissionError:
+        print("Operation not permitted.")
+
+    except FileNotFoundError:
+        print("File not found.")
+
+    except OSError as error:
+        print(error)
+
 
 def format_csv(file_name):
     separator = input("Informe o tipo de separador (vírgula, ponto e vírgula, etc): ")
@@ -143,11 +263,20 @@ def treat_sensitive_data(file_name, target):
 
 def main():
     file_name = input('Informe o nome de arquivo de entrada: ')
-    option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT CSV FILE\n2 - HIDE SENSITIVE DATA\n0 - EXIT\n")
+    option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT NAME OF FILE\n2 - REMOVE EXTRA WORDS OF NAME OF FILE\n3 - REPLACE PART OF THE NAME OF FILE TO OTHER TEXT\n4 - FORMAT CSV FILE\n5 - HIDE SENSITIVE DATA\n0 - EXIT\n")
 
     if (option == '1'):
-        format_csv(file_name)
+        format_filename(file_name)
     elif (option == '2'):
+        extra_word = input('Insira o texto que deseja remover do nome do arquivo: ')
+        remove_extra_words_in_filename(file_name, extra_word)
+    elif (option == '3'):
+        part_to_remove = input('Insira a parte do texto que deseja remover do nome do arquivo: ')
+        part_to_add = input('Insira o texto que deseja adicionar no lugar do texto removido: ')
+        replace_part_of_namefile(file_name, part_to_remove, part_to_add)
+    elif (option == '4'):
+        format_csv(file_name)
+    elif (option == '5'):
         target = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
         treat_sensitive_data(file_name, target)
     else:
