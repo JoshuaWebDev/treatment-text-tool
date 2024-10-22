@@ -6,6 +6,28 @@ Manipulates texts, hiding sensitive data and performing other types of necessary
 
 - Python >= 3.10
 
+## How To Use
+
+The files to be manipulated must be copied to the input directory. The run the program.
+
+```
+python treattext.py
+```
+
+You will be asked for the name of the file you want to process. Enter the name of the file, including the file extension, and press enter.
+
+The following options will be presented:
+
+```
+SELECT THE OPTION DESIRED:
+1 - FORMAT NAME OF FILE
+2 - REMOVE EXTRA WORDS OF NAME OF FILE
+3 - REPLACE PART OF THE NAME OF FILE TO OTHER TEXT
+4 - FORMAT CSV FILE
+5 - HIDE SENSITIVE DATA
+0 - EXIT
+```
+
 ## Hiding Sensitive Data
 
 Assuming we have a csv file with sensitive data, as shown in the example below:
@@ -40,7 +62,7 @@ We copy the file into the input folder and then run the following command:
 python treattext.py
 ```
 
-The program will ask for the name of the field where the sensitive data is located. In this case, we will inform the name of the third field (CPF).
+The program will ask for the name of the field where the sensitive data is located. Enter the name of the file and select the option 5. Next enter the name of the field to be processed. In this case, we will inform the name of the third field (CPF).
 
 The new version of the file with the data hidden will then be saved in the output directory.
 

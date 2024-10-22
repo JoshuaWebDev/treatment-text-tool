@@ -265,22 +265,23 @@ def treat_sensitive_data(file_name, target):
 
 
 def main():
-    file_name = input('Informe o nome de arquivo de entrada: ')
+    file_name = input('Enter the name of the input file: ')
     option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT NAME OF FILE\n2 - REMOVE EXTRA WORDS OF NAME OF FILE\n3 - REPLACE PART OF THE NAME OF FILE TO OTHER TEXT\n4 - FORMAT CSV FILE\n5 - HIDE SENSITIVE DATA\n0 - EXIT\n")
 
     if (option == '1'):
         format_filename(file_name)
     elif (option == '2'):
-        extra_word = input('Insira o texto que deseja remover do nome do arquivo: ')
+        extra_word = input('Enter the text you want to remove from the file name: ')
         remove_extra_words_in_filename(file_name, extra_word)
     elif (option == '3'):
-        part_to_remove = input('Insira a parte do texto que deseja remover do nome do arquivo: ')
-        part_to_add = input('Insira o texto que deseja adicionar no lugar do texto removido: ')
+        part_to_remove = input('Enter the part of the text you want to remove from the file name: ')
+        part_to_add = input('Enter the text you want to add in place of the removed text: ')
         replace_part_of_namefile(file_name, part_to_remove, part_to_add)
     elif (option == '4'):
-        format_csv(file_name)
+        print("Availabel soon")
+        #format_csv(file_name)
     elif (option == '5'):
-        target = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
+        target = input('Enter the name of the field to be processed (Exemplo: CPF): ')
         treat_sensitive_data(file_name, target)
     else:
         exit()
