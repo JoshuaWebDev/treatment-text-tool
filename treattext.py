@@ -122,28 +122,46 @@ def replace_part_of_namefile(file_name, part_to_remove, part_to_add):
     except OSError as error:
         print(error)
 
-
 def format_csv(file_name):
     separator = input("Informe o tipo de separador (vírgula, ponto e vírgula, etc): ")
     input_file_path = os.path.join(input_folder, file_name)
-    output_file_path = os.path.join(output_folder, file_name)
+    output_file_path = os.path.join(input_folder, file_name.rstrip('.csv') + "_formated.csv")
 
     input_file = handle_input_file(input_file_path)
+    new_content = ""
 
     if input_file:
         # a partir da primeira linha do arquivo, cria uma lista com o nome dos campos (atributos)
         first_line = input_file.readline()
-        head = first_line.split(separator)
+
+        lines = list()
+        new_lines = list()
 
         for line in input_file:
             if line != first_line:
-                temp = line.split(';')
-                if len(temp) < len(head):
-                    temp[-1] = temp[-1][0:-1]
+                lines.append(line)
 
-                print(temp)
-                print("FALTA TERMINAR DE IMPLEMENTAR...")
-                exit()
+        temp_line = ""
+
+        for l in lines:
+            quantity_of_separators = l.count(separator)
+
+            if quantity_of_separators < first_line.count(separator):
+                temp_part = l.strip("\n")
+                temp_line = temp_line + temp_part
+
+            if temp_line.count(separator) == first_line.count(separator):
+                new_lines.append(temp_line)
+                print(temp_line)
+                temp_line = ""
+
+        new_content += first_line
+
+        for nl in new_lines:
+            new_content += nl + "\n"
+
+    input_file.close()
+    handle_output_file(output_file_path, new_content)
 
 
 def hide_cpf(cpf_or_cnpj):
@@ -268,18 +286,18 @@ def main():
     file_name = input('Informe o nome de arquivo de entrada: ')
     option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT NAME OF FILE\n2 - REMOVE EXTRA WORDS OF NAME OF FILE\n3 - REPLACE PART OF THE NAME OF FILE TO OTHER TEXT\n4 - FORMAT CSV FILE\n5 - HIDE SENSITIVE DATA\n0 - EXIT\n")
 
-    if (option == '1'):
+    if option == '1':
         format_filename(file_name)
-    elif (option == '2'):
+    elif option == '2':
         extra_word = input('Insira o texto que deseja remover do nome do arquivo: ')
         remove_extra_words_in_filename(file_name, extra_word)
-    elif (option == '3'):
+    elif option == '3':
         part_to_remove = input('Insira a parte do texto que deseja remover do nome do arquivo: ')
         part_to_add = input('Insira o texto que deseja adicionar no lugar do texto removido: ')
         replace_part_of_namefile(file_name, part_to_remove, part_to_add)
-    elif (option == '4'):
+    elif option == '4':
         format_csv(file_name)
-    elif (option == '5'):
+    elif option == '5':
         target = input('Informe o nome do campo a ser tratado (Exemplo: CPF): ')
         treat_sensitive_data(file_name, target)
     else:
