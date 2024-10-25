@@ -297,8 +297,7 @@ def main():
         part_to_add = input('Enter the text you want to add in place of the removed text: ')
         replace_part_of_namefile(file_name, part_to_remove, part_to_add)
     elif option == '4':
-        print("Availabel soon")
-        #format_csv(file_name)
+        format_csv(file_name)
     elif option == '5':
         target = input('Enter the name of the field to be processed (Exemplo: CPF): ')
         treat_sensitive_data(file_name, target)

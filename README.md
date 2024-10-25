@@ -28,7 +28,56 @@ SELECT THE OPTION DESIRED:
 0 - EXIT
 ```
 
-## Hiding Sensitive Data
+## Option 1 - Formating File Name
+
+This option formats the file name, eliminating acute accents, grave accents, circumflex accents, umlauts, tildes and replacing spaces with underlines. Example: 'texto com espaços e acentuação' becomes 'texto_com_espacos_e_acentuacao'.
+
+## Option 2 - Removing Part Of The File Name
+
+Sometimes the file name has some text that we want to remove. For example, there is a file called 'spreadsheet_of_payments_43432434214' and we want to remove this number from the file name.
+
+When selecting option 2 the program will ask:
+
+```
+Enter the text you want to remove from the file name:
+```
+We enter the text that we want remove (_43432434214).
+
+If everything goes correctly, the following message will be displayed:
+
+```
+"spreadsheet_of_payments_43432434214 has been renamed to spreadsheet_of_payments successfully."
+```
+
+## Option 3 - Replace Part Of The File Name
+
+Sometimes, instead of removing part of a file name, we want to replace a portion of it with another text. For example, we want the name 'spreadsheet_of_payments_2024-10-04' to be replace by 'spreadsheet_of_payments_octuber_2024'
+
+When selecting option 2 the program will ask:
+
+```
+Enter the part of the text you want to remove from the file name:
+```
+
+We enter the text that we want remove (2024-10-04). Then the program will ask:
+
+```
+Enter the text you want to add in place of the removed text:
+```
+
+We enter the text that we want to replace the previous text (octuber_2024) and if everything goes correctly the message will be displayed:
+
+```
+"spreadsheet_of_payments_2024 has been renamed to spreadsheet_of_payments_octuber_2024 successfully."
+```
+
+## Option 4 - Formating CSV File
+
+Sometime, after converting a PDF file to an Excel spreadsheet, the structure of the generated file is poorly formmatted. When selecting option 5, the file will be processed and a new version of the file will be saved in the output directory.
+
+## Option 5 - Hiding Sensitive Data
+
+> Attention! To run this option, it is important to run options 1 and 4 first (optionally, options 2 and 3 can also be run, as needed)
 
 Assuming we have a csv file with sensitive data, as shown in the example below:
 
