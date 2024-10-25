@@ -1,8 +1,29 @@
 import os
 from os.path import split
+from openpyxl import Workbook
 
 input_folder = os.path.abspath('input')
 output_folder = os.path.abspath('output')
+
+def openpyxl(file_name):
+    output_file_path = os.path.join(output_folder, file_name)
+    wb = Workbook()
+
+    # grab the active worksheet
+    ws = wb.active
+
+    # Data can be assigned directly to cells
+    ws['A1'] = 42
+
+    # Rows can also be appended
+    ws.append([1, 2, 3])
+
+    # Python types will automatically be converted
+    import datetime
+    ws['A2'] = datetime.datetime.now()
+
+    # Save the file
+    wb.save(output_file_path + '.xls')
 
 def remove_space_of_namefile(file_name):
     return file_name.replace(" ", "_")
@@ -285,7 +306,7 @@ def treat_sensitive_data(file_name, target):
 
 def main():
     file_name = input('Enter the name of the input file: ')
-    option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT NAME OF FILE\n2 - REMOVE EXTRA WORDS OF NAME OF FILE\n3 - REPLACE PART OF THE NAME OF FILE TO OTHER TEXT\n4 - FORMAT CSV FILE\n5 - HIDE SENSITIVE DATA\n0 - EXIT\n")
+    option = input("SELECT THE OPTION DESIRED:\n1 - FORMAT NAME OF FILE\n2 - REMOVE EXTRA WORDS OF NAME OF FILE\n3 - REPLACE PART OF THE NAME OF FILE TO OTHER TEXT\n4 - FORMAT CSV FILE\n5 - HIDE SENSITIVE DATA\n6 - TESTING OPEN PYXL\n0 - EXIT\n")
 
     if option == '1':
         format_filename(file_name)
@@ -301,6 +322,8 @@ def main():
     elif option == '5':
         target = input('Enter the name of the field to be processed (Exemplo: CPF): ')
         treat_sensitive_data(file_name, target)
+    elif option == '6':
+        openpyxl(file_name)
     else:
         exit()
 
