@@ -6,6 +6,20 @@ Manipulates texts, hiding sensitive data and performing other types of necessary
 
 - Python >= 3.10
 
+## Virtual Environment
+
+To avoid problems with Python versions use the virtual environment. Execute the command:
+
+```
+.venv/Scripts/activate
+```
+
+To deactivate the virtual environment.
+
+```
+deactivate
+```
+
 ## How To Use
 
 The files to be manipulated must be copied to the input directory. The run the program.
