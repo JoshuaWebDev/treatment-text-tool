@@ -1,5 +1,5 @@
 import os
-import tkinter as tk
+from tkinter import Button, Label, Tk
 
 input_folder = os.path.abspath('input')
 output_folder = os.path.abspath('output')
@@ -68,15 +68,31 @@ def remove_extra_words_in_filename(file_name, extra_word):
         print(error)
 
 
-def replace_part_of_namefile(file_name, part_to_remove, part_to_add):
+def replace_part_of_namefile(file_name, part_to_remove, part_to_add, closeWindow):
     newfile_name = file_name.replace(part_to_remove, part_to_add)
 
     input_file_path = os.path.join(input_folder, file_name)
     output_file_path = os.path.join(input_folder, newfile_name)
 
     try:
-        os.rename(input_file_path, output_file_path)
-        print(file_name + " has been renamed to " + newfile_name + " successfully.")
+        if len(file_name) > 0:
+            os.rename(input_file_path, output_file_path)
+            print(file_name + " has been renamed to " + newfile_name + " successfully.")
+            window = Tk()
+            window.title("Treatment Text Tool")
+            label = Label(window, text=f"{file_name}\n has been renamed to \n{newfile_name}\n successfully.")
+            label.grid(column=0, row=0, padx=10, pady=10)
+            exitButton = Button(window, text="Quit", command=window.destroy)
+            exitButton.grid(column=0, row=6, padx=100, pady=5)
+            closeWindow.destroy()
+        else:
+            window = tk.Tk()
+            window.title("Treatment Text Tool")
+            label = tk.Label(window, text=f"Enter the name of file!")
+            label.grid(column=0, row=0, padx=10, pady=10)
+            exitButton = tk.Button(window, text="Quit", command=window.destroy)
+            exitButton.grid(column=0, row=6, padx=100, pady=5)
+            closeWindow.destroy()
 
     except IsADirectoryError:
         print(file_name + " is a file but " + newfile_name + " is a directory.")
@@ -138,14 +154,23 @@ def format_filename(file_name, closeWindow):
     output_file_path = os.path.join(input_folder, newfile_name)
 
     try:
-        os.rename(input_file_path, output_file_path)
-        window = tk.Tk()
-        window.title("Treatment Text Tool")
-        label = tk.Label(window, text=f"{file_name}\n has been renamed to \n{newfile_name}\n successfully.")
-        label.grid(column=0, row=0, padx=10, pady=10)
-        exitButton = tk.Button(window, text="Quit", command=window.destroy)
-        exitButton.grid(column=0, row=6, padx=100, pady=5)
-        closeWindow.destroy()
+        if len(file_name) > 0:
+            os.rename(input_file_path, output_file_path)
+            window = Tk()
+            window.title("Treatment Text Tool")
+            label = Label(window, text=f"{file_name}\n has been renamed to \n{newfile_name}\n successfully.")
+            label.grid(column=0, row=0, padx=10, pady=10)
+            exitButton = Button(window, text="Quit", command=window.destroy)
+            exitButton.grid(column=0, row=6, padx=100, pady=5)
+            closeWindow.destroy()
+        else:
+            window = tk.Tk()
+            window.title("Treatment Text Tool")
+            label = tk.Label(window, text=f"Enter the name of file!")
+            label.grid(column=0, row=0, padx=10, pady=10)
+            exitButton = tk.Button(window, text="Quit", command=window.destroy)
+            exitButton.grid(column=0, row=6, padx=100, pady=5)
+            closeWindow.destroy()
 
     except IsADirectoryError:
         print(file_name + " is a file but " + newfile_name + " is a directory.")
@@ -161,8 +186,6 @@ def format_filename(file_name, closeWindow):
 
     except OSError as error:
         print(error)
-
-    return result
 
 
 def format_csv(self, file_name):
